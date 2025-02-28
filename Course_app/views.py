@@ -1,5 +1,17 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404,redirect
-
+from .models import Student,Course,Lesson
 # Create your views here.
 def HomePage(request):
-    return render(request,"Course_app/index.html")
+    courses = Course.objects.all()
+    
+    return render(request,"Course_app/index.html",{"courses":courses})
+
+def Course_Details(request,id):
+    course = get_object_or_404(Course, id=id)
+    lessons = course.lesson.all()
+    context ={
+        'course':course,
+        'lessons':lessons
+    }
+    
+    return render(request,"Course_app/Course_details.html",context)

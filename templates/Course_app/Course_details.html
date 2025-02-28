@@ -1,0 +1,33 @@
+<!-- Course_details.html -->
+{% extends 'Course_app/base.html' %}
+
+{% block title %}Course Details{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Course Title: {{ course.title }}</h2>
+    <p><strong>Duration:</strong> {{ course.durations }} hours</p>
+    <p><strong>Description:</strong> {{ course.descriptions }}</p>
+
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Lesson Title</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lesson in lessons %}
+            <tr>
+                <td>{{ lesson.title }}</td>
+                <td>{{ lesson.content }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-primary">Back to Home</a>
+    </div>
+</div>
+{% endblock content %}

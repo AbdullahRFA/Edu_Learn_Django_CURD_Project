@@ -1,13 +1,32 @@
+<!-- index.html -->
 {% extends 'Course_app/base.html' %}
 
-{% block title %}
-    Home Page
-{% endblock title %}
-
+{% block title %}Home Page{% endblock title %}
 
 {% block content %}
-<h1>Welcome to Edu Learn</h1>
-    
+<div class="text-center mb-4">
+    <h1 class="fw-bold">Welcome to Edu Learn</h1>
+</div>
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Course_ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.id }}</td>
+            <td>{{ course.title }}</td>
+            <td>{{ course.descriptions }}</td>
+            <td>{{ course.durations }}</td>
+            <td><a href="{% url 'coursedetails' course.id %}" class="btn btn-primary">View Details</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}
-    
-    
