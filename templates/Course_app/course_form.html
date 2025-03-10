@@ -7,9 +7,12 @@
     
     {% if check == 1 %}
     <h2 class="text-center">Upadate Course Details</h2>
-    {% else %}
+    {% elif check == 2 %}
     <h2 class="text-center">Add New Course</h2>
-
+    {% elif check == 3 %}
+    <h2 class="text-center">Add New Lesson</h2>
+    {% else %}
+    <h2 class="text-center">Update Lesson Details</h2>
     {% endif %}
         
 

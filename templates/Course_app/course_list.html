@@ -17,7 +17,7 @@
             <th>Duration</th>
             <th>Thumbnail</th>
             <th>Actions</th>
-            <th>Details</th>
+            <th>Manage Lesson</th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +44,10 @@
                     <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
                 </form>
             </td>
-            <td><a href="{% url 'coursedetails' course.id %}" class="btn btn-primary">View Details</a></td>
+            <td>
+                <a href="{% url 'create_lesson' %}" class="btn btn-info btn-sm mb-1">Add Lesson</a>
+                <a href="{% url 'coursedetails' course.id %}" class="btn btn-secondary btn-sm mt-1">View Lesson</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

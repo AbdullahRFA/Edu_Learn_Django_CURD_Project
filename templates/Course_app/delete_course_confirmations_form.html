@@ -1,9 +1,24 @@
 {% extends "Course_app/base.html" %}
-{% block title %}Delete Course{% endblock %}
+{% block title %}
+{% if check == 1 %}
+    Delete Lesson
+{% else %}
+Delete Course
+
+{% endif %}
+{% endblock %}
+    
 
 {% block content %}
 <div class="container mt-4">
-<h2>Are you sure you want to delete "{{ course.title }}"?</h2>
+    
+    {% if check == 1 %}
+    <h2>Are you sure you want to delete "{{ lesson.title }} Lesson"?</h2>
+    {% else %}
+    <h2>Are you sure you want to delete "{{ course.title }} Course"?</h2>
+        
+    {% endif %}
+        
 
 <p>This action cannot be undone.</p>
 <form method="post">

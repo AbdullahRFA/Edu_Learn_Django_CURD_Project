@@ -60,5 +60,58 @@ def course_delete(request,id):
     course = get_object_or_404(Course,id=id)
     if request.method == "POST":
         course.delete()
+        messages.warning(request,"Course Successfully deleted!")
         return redirect('course_list')
-    return render(request,"Course_app/delete_course_confirmations_form.html",{'course':course})
+    context = {
+        'course' : course,
+        'check' : 2
+    }
+    return render(request,"Course_app/delete_course_confirmations_form.html",context)
+
+
+
+
+def create_lesson(request):
+    form = lessonForm()
+    if request.method == "POST":
+        form = lessonForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Lesson added Successfully")
+            return redirect('course_list')
+    context = {
+        'check': 3,
+        'form':form
+    }
+    return render(request,"Course_app/course_form.html",context)
+
+def lesson_edit(request,id):
+    lesson = get_object_or_404(Lesson,id=id)
+    form = lessonForm(instance=lesson)
+    if request.method == "POST":
+        form = lessonForm(request.POST,request.FILES,instance=lesson)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Lesson update Successfully")
+        else:
+            messages.error(request,"Lesson can't update Successfully")   
+    context = {
+        'check' : 4,
+        'form' : form
+    }
+    return render(request,"Course_app/course_form.html",context)
+
+
+def lesson_delete(request,id):
+    lesson = get_object_or_404(Lesson, id = id)
+    if request.method == "POST":
+        lesson.delete()
+        messages.warning(request,"Lesson Successfully deleted")
+        return redirect('course_list')
+    context = {
+        'lesson' : lesson,
+        'check' : 1
+        
+    }
+    
+    return render(request,"Course_app/delete_course_confirmations_form.html",context)
