@@ -15,3 +15,9 @@ def Course_Details(request,id):
     }
     
     return render(request,"Course_app/Course_details.html",context)
+
+
+def course_edit(request,id):
+    return HttpResponse("This is course_edit")
+def course_delete(request,id):
+    return HttpResponse("This is course_delete")
