@@ -1,0 +1,25 @@
+{% extends 'Course_app/base.html' %}
+
+{% block title %}Add Course{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Add New Course</h2>
+
+    <!-- Display form errors -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Please correct the errors below:</strong>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'create_course' %}" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
+        {% csrf_token %}  <!-- ✅ This line is required -->
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <a href="{% url 'course_list' %}" class="btn btn-secondary mt-3">Back to Courses</a>
+</div>
+{% endblock content %}

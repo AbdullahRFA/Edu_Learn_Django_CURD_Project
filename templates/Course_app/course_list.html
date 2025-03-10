@@ -7,6 +7,7 @@
 <div class="text-center mb-4">
     <h1 class="fw-bold">Welcome to Edu Learn</h1>
 </div>
+<a href="{% url 'create_course' %}" class="btn btn-primary fw-bold mb-3">Add New Course</a>
 <table class="table table-bordered table-hover text-center">
     <thead class="table-dark">
         <tr>
@@ -29,7 +30,7 @@
             <td>
                 
                 {% if course.thumbnail %}
-                    <img src="{{course.thumbnail.url}}" alt="">
+                    <img src="{{ course.thumbnail.url }}" alt="{{course.title}}" width="100">
                 {% else %}
                 <span class="text-muted">NO Image</span>
                     
