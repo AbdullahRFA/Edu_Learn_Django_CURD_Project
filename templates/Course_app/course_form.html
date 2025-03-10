@@ -4,7 +4,14 @@
 
 {% block content %}
 <div class="container mt-4">
+    
+    {% if check == 1 %}
+    <h2 class="text-center">Upadate Course Details</h2>
+    {% else %}
     <h2 class="text-center">Add New Course</h2>
+
+    {% endif %}
+        
 
     <!-- Display form errors -->
     {% if form.errors %}
@@ -14,12 +21,12 @@
         </div>
     {% endif %}
 
-    <form action="{% url 'create_course' %}" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
+    <form  method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
         {% csrf_token %}  <!-- ✅ This line is required -->
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-    <a href="{% url 'course_list' %}" class="btn btn-secondary mt-3">Back to Courses</a>
+    <a href="{% url 'course_list' %}" class="btn btn-secondary mt-3">Back to Home</a>
 </div>
 {% endblock content %}

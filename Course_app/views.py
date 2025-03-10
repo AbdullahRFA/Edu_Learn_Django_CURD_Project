@@ -28,12 +28,34 @@ def create_course(request):
             form.save()
             messages.success(request, "Course added successfully!")
             return redirect('course_list')  # ✅ Ensure 'course_list' is defined in `urls.py`
+    context = {
+        'check' : 2,
+        'form': form
+    }
 
-    return render(request, "Course_app/course_form.html", {'form': form})  # ✅ Pass the correct form
+    return render(request, "Course_app/course_form.html", context)  # ✅ Pass the correct form
 
 
-def course_edit(request,id):
-    return HttpResponse("This is course_edit")
+def course_edit(request, id):
+    course = get_object_or_404(Course, id=id)  # Fetch the course object
+
+    if request.method == "POST":
+        form = courseForm(request.POST, request.FILES, instance=course)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Course details updated successfully! ✅")
+            return redirect('course_list')  # Redirect after successful update
+    else:
+        form = courseForm(instance=course)  # Pre-fill form with course details
+        
+    
+    context = {
+        'check' : 1, 
+        'course': course,
+        'form': form
+    }
+    return render(request, "Course_app/course_form.html", context)
+
 def course_delete(request,id):
     course = get_object_or_404(Course,id=id)
     if request.method == "POST":
