@@ -33,7 +33,7 @@ def create_course(request):
         'form': form
     }
 
-    return render(request, "Course_app/course_form.html", context)  # ✅ Pass the correct form
+    return render(request, "Course_app/input_and_update_form.html", context)  # ✅ Pass the correct form
 
 
 def course_edit(request, id):
@@ -54,7 +54,7 @@ def course_edit(request, id):
         'course': course,
         'form': form
     }
-    return render(request, "Course_app/course_form.html", context)
+    return render(request, "Course_app/input_and_update_form.html", context)
 
 def course_delete(request,id):
     course = get_object_or_404(Course,id=id)
@@ -66,7 +66,7 @@ def course_delete(request,id):
         'course' : course,
         'check' : 2
     }
-    return render(request,"Course_app/delete_course_confirmations_form.html",context)
+    return render(request,"Course_app/delete_confirmation_form.html",context)
 
 
 
@@ -83,7 +83,7 @@ def create_lesson(request):
         'check': 3,
         'form':form
     }
-    return render(request,"Course_app/course_form.html",context)
+    return render(request,"Course_app/input_and_update_form.html",context)
 
 def lesson_edit(request,id):
     lesson = get_object_or_404(Lesson,id=id)
@@ -93,13 +93,14 @@ def lesson_edit(request,id):
         if form.is_valid():
             form.save()
             messages.success(request,"Lesson update Successfully")
+            return redirect('course_list')
         else:
             messages.error(request,"Lesson can't update Successfully")   
     context = {
         'check' : 4,
         'form' : form
     }
-    return render(request,"Course_app/course_form.html",context)
+    return render(request,"Course_app/input_and_update_form.html",context)
 
 
 def lesson_delete(request,id):
@@ -114,4 +115,4 @@ def lesson_delete(request,id):
         
     }
     
-    return render(request,"Course_app/delete_course_confirmations_form.html",context)
+    return render(request,"Course_app/delete_confirmation_form.html",context)
