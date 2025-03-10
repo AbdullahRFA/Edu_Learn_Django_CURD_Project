@@ -35,4 +35,8 @@ def create_course(request):
 def course_edit(request,id):
     return HttpResponse("This is course_edit")
 def course_delete(request,id):
-    return HttpResponse("This is course_delete")
+    course = get_object_or_404(Course,id=id)
+    if request.method == "POST":
+        course.delete()
+        return redirect('course_list')
+    return render(request,"Course_app/delete_course_confirmations_form.html",{'course':course})
