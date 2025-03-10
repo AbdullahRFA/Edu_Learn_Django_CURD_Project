@@ -1,10 +1,10 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404,redirect
 from .models import Student,Course,Lesson
 # Create your views here.
-def HomePage(request):
+def course_list(request):
     courses = Course.objects.all()
     
-    return render(request,"Course_app/index.html",{"courses":courses})
+    return render(request,"Course_app/course_list.html",{"courses":courses})
 
 def Course_Details(request,id):
     course = get_object_or_404(Course, id=id)
