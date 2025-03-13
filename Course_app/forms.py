@@ -1,7 +1,7 @@
 from django import forms
 from .models import Course, Lesson, Student
 
-class courseForm(forms.ModelForm):
+class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['title', 'descriptions', 'durations', 'thumbnail']  # ✅ Fixed "durations" to "duration"
@@ -11,7 +11,7 @@ class courseForm(forms.ModelForm):
             'durations': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
-class lessonForm(forms.ModelForm):
+class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['course', 'title', 'content']
@@ -24,10 +24,10 @@ class lessonForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name','roll','email','enrolled_courses']
+        fields = ['name', 'roll', 'email', 'enrolled_courses']
         widgets = {
-            'name':forms.TextInput(attrs={'class':'form-control'}),
-            'roll':forms.NumberInput(attrs={'class':'form-control'}),
-            'email':forms.EmailInput(attrs={'class':'form-control'}),
-            'enrolled_courses':forms.CheckboxSelectMultiple(attrs={'class':'form-control'})
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'roll': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'enrolled_courses': forms.CheckboxSelectMultiple()  # ✅ Removed class="form-control" (not needed)
         }

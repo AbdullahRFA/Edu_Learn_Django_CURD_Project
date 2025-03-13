@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404,redirect
 from .models import Student,Course,Lesson
-from .forms import courseForm, lessonForm
+from .forms import CourseForm, LessonForm, StudentForm
 from django.contrib import messages
 # Create your views here.
 def course_list(request):
@@ -20,10 +20,10 @@ def Course_Details(request,id):
 
 
 def create_course(request):
-    form = courseForm()  # ✅ Initialize the form once
+    form = CourseForm()  # ✅ Initialize the form once
 
     if request.method == "POST":
-        form = courseForm(request.POST, request.FILES)  # ✅ Correct form initialization
+        form = CourseForm(request.POST, request.FILES)  # ✅ Correct form initialization
         if form.is_valid():  # ✅ Moved inside the POST check
             form.save()
             messages.success(request, "Course added successfully!")
@@ -40,13 +40,13 @@ def course_edit(request, id):
     course = get_object_or_404(Course, id=id)  # Fetch the course object
 
     if request.method == "POST":
-        form = courseForm(request.POST, request.FILES, instance=course)
+        form = CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             form.save()
             messages.success(request, "Course details updated successfully! ✅")
             return redirect('course_list')  # Redirect after successful update
     else:
-        form = courseForm(instance=course)  # Pre-fill form with course details
+        form = CourseForm(instance=course)  # Pre-fill form with course details
         
     
     context = {
@@ -72,9 +72,9 @@ def course_delete(request,id):
 
 
 def create_lesson(request):
-    form = lessonForm()
+    form = LessonForm, StudentForm()
     if request.method == "POST":
-        form = lessonForm(request.POST,request.FILES)
+        form = LessonForm, StudentForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request,"Lesson added Successfully")
@@ -87,9 +87,9 @@ def create_lesson(request):
 
 def lesson_edit(request,id):
     lesson = get_object_or_404(Lesson,id=id)
-    form = lessonForm(instance=lesson)
+    form = LessonForm, StudentForm(instance=lesson)
     if request.method == "POST":
-        form = lessonForm(request.POST,request.FILES,instance=lesson)
+        form = LessonForm, StudentForm(request.POST,request.FILES,instance=lesson)
         if form.is_valid():
             form.save()
             messages.success(request,"Lesson update Successfully")
@@ -116,3 +116,24 @@ def lesson_delete(request,id):
     }
     
     return render(request,"Course_app/delete_confirmation_form.html",context)
+
+
+
+def Enroll_student(request):
+    form = StudentForm()
+    if request.method == "POST":
+        form = StudentForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Student Enrolled Successfully")
+            return redirect('course_list')
+    context = {
+        'check' : 5,
+        'form' : form
+    }
+    return render(request,"Course_app/input_and_update_form.html",context)
+
+
+def student_list(request):
+    students = Student.objects.all()
+    return render(request,"Course_app/student_list.html",{'students':students})

@@ -15,4 +15,11 @@ urlpatterns = [
     path('create_lesson/',views.create_lesson,name='create_lesson'),
     path('lesson_edit/<int:id>/',views.lesson_edit,name='lesson_edit'),
     path('lesson_delete/<int:id>/',views.lesson_delete,name='lesson_delete'),
+    
+    
+    
+    path('student_list/',views.student_list,name='student_list'),
+    path('Enroll_student/',views.Enroll_student,name='Enroll_student'),
+    
+    
 ]
