@@ -13,11 +13,11 @@ Delete Course
 <div class="container mt-4">
     
     {% if check == 1 %}
-    <h2>Are you sure you want to delete "{{ lesson.title }} Lesson"?</h2>
+    <h2>Are you sure you want to delete "<span class="text-danger">{{ lesson.title }} Lesson</span>"? </h2>
     {% elif check == 2 %}
-    <h2>Are you sure you want to delete "{{ student.title }} Student"?</h2>
-    {% else %}
-    <h2>Are you sure you want to delete "{{ course.title }} Course"?</h2>
+    <h2>Are you sure you want to delete "<span class="text-danger">{{ course.title }} Course</span>"? </h2>
+    {% elif check == 3 %}
+    <h2>Are you sure you want to delete "<span class="text-danger">{{ student.name }}</span>"? </h2>
         
     {% endif %}
         

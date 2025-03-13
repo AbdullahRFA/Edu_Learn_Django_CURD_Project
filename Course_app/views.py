@@ -158,7 +158,7 @@ def delete_student(request,id):
         messages.warning(request,"Student Deleted Successfully")
         return redirect('student_list')
     context = {
-        'check' : 2,
+        'check' : 3,
         'student' : student
     }
     return render(request,"Course_app/delete_confirmation_form.html",context)
