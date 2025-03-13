@@ -8,8 +8,8 @@
     <h1 class="fw-bold">Welcome to Edu Learn</h1>
 </div>
 <div class="d-flex justify-content-between">
-    <a href="{% url 'create_course' %}" class="btn btn-primary fw-bold mb-3">Add New Course</a>
-    <a href="{% url 'Enroll_student' %}" class="btn btn-primary fw-bold mb-3">Enroll Student</a>
+    <a href="{% url 'create_course' %}" class="btn btn-outline-primary fw-bold mb-3">Add New Course</a>
+    <a href="{% url 'Enroll_student' %}" class="btn btn-outline-warning fw-bold mb-3">Enroll Student</a>
 
 </div>
 <table class="table table-bordered table-hover text-center">
@@ -43,15 +43,15 @@
                 
             </td>
             <td>
-                <a href="{% url 'course_edit' course.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
+                <a href="{% url 'course_edit' course.id %}" class="btn btn-sm btn-outline-warning my-2"><i class='fas fa-edit'></i>Edit</a>
                 <form action="{% url 'course_delete' course.id %}" class="d-inline">
-                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
+                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
                 </form>
             </td>
             <td>
-                <a href="{% url 'create_lesson' %}" class="btn btn-info btn-sm mb-1">Add Lesson</a>
-                <a href="{% url 'coursedetails' course.id %}" class="btn btn-secondary btn-sm mt-1">View Lesson</a>
-                <a href="{% url 'individual_course_enrolled_student' course.id %}" class="btn btn-primary btn-sm mt-1">View Student</a>
+                <a href="{% url 'create_lesson' %}" class="btn btn-outline-info btn-sm mb-1">Add Lesson</a>
+                <a href="{% url 'coursedetails' course.id %}" class="btn btn-outline-secondary btn-sm mb-1">View Lesson</a>
+                <a href="{% url 'individual_course_enrolled_student' course.id %}" class="btn btn-outline-primary btn-sm mt-1">View Student</a>
             </td>
         </tr>
         {% endfor %}

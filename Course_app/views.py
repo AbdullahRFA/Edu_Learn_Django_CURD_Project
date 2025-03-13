@@ -72,9 +72,9 @@ def course_delete(request,id):
 
 
 def create_lesson(request):
-    form = LessonForm, StudentForm()
+    form = LessonForm()
     if request.method == "POST":
-        form = LessonForm, StudentForm(request.POST,request.FILES)
+        form = LessonForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request,"Lesson added Successfully")
