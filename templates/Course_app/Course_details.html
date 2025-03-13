@@ -1,4 +1,3 @@
-<!-- Course_details.html -->
 {% extends 'Course_app/base.html' %}
 
 {% block title %}Course Details{% endblock title %}
@@ -8,6 +7,10 @@
     <h2 class="mb-4">Course Title: {{ course.title }}</h2>
     <p><strong>Duration:</strong> {{ course.durations }} hours</p>
     <p><strong>Description:</strong> {{ course.descriptions }}</p>
+
+    <div class="d-flex justify-content-between my-3">
+        <a href="{% url 'create_lesson' %}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Lesson</a>
+    </div>
 
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
@@ -21,19 +24,32 @@
             {% for lesson in lessons %}
             <tr>
                 <td>{{ lesson.title }}</td>
-                <td>{{ lesson.content }}</td>
+                <td class="text-start">
+                    <span data-bs-toggle="tooltip" title="{{ lesson.content }}">
+                        {{lesson.content | linebreaksbr}}
+                       {% comment %} <pre >{{ lesson.content }}</pre>  {% endcomment %}
+                    </span>
+                </td>
                 <td>
-                    <a href="{% url 'lesson_edit' lesson.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
-                    <form action="{% url 'lesson_delete' lesson.id %}" class="d-inline">
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
+                    <a href="{% url 'lesson_edit' lesson.id %}" class="btn btn-sm btn-warning my-2">
+                        <i class='fas fa-edit'></i> Edit
+                    </a>
+                    <form action="{% url 'lesson_delete' lesson.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
                     </form>
                 </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center text-muted">No lessons available for this course.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <div class="text-center mt-4">
+    <div class="d-flex justify-content-center">
         <a href="{% url 'course_list' %}" class="btn btn-outline-primary">Back to Home</a>
     </div>
 </div>

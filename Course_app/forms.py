@@ -16,9 +16,9 @@ class LessonForm(forms.ModelForm):
         model = Lesson
         fields = ['course', 'title', 'content']
         widgets = {
-            'course': forms.Select(attrs={'class': 'form-control'}),  # ✅ Fixed to use Select
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'course': forms.Select(attrs={'class': 'form-select'}),  # ✅ Bootstrap uses `form-select`
+            'title': forms.TextInput(attrs={'class': 'form-control','placeholder':'Enter the title'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Enter lesson content...'}),
         }
         
 class StudentForm(forms.ModelForm):
