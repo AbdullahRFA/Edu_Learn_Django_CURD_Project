@@ -41,7 +41,7 @@
             </td>
              <td>
                 <a href="{% url 'update_student' student.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
-                <form action="" class="d-inline">
+                <form action="{% url 'delete_student' student.id %}" class="d-inline">
                     <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
                 </form>
             </td> 

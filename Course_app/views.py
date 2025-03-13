@@ -150,3 +150,15 @@ def update_student(request,id):
         'form' : form
     }
     return render(request,"Course_app/input_and_update_form.html",context)
+
+def delete_student(request,id):
+    student = get_object_or_404(Student,id = id)
+    if request.method == "POST":
+        student.delete()
+        messages.warning(request,"Student Deleted Successfully")
+        return redirect('student_list')
+    context = {
+        'check' : 2,
+        'student' : student
+    }
+    return render(request,"Course_app/delete_confirmation_form.html",context)
