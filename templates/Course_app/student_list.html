@@ -1,11 +1,27 @@
 <!-- index.html -->
 {% extends 'Course_app/base.html' %}
 
-{% block title %}Student List{% endblock title %}
+{% block title %}
+
+{% if check == 1 %}
+Enrolled Student of 
+{{course.title}} Course
+{% else %}
+Student List
+{% endif %}
+    
+{% endblock title %}
 
 {% block content %}
 <div class="text-center mb-4">
-    <h1 class="fw-bold">Student List</h1>
+    <h1 class="fw-bold">
+    {% if check == 1 %}
+    Enrolled Student of
+    <span class="text-danger">"{{course.title}}"</span> Course
+    {% else %}
+    Student List
+    {% endif %}
+    </h1>
 </div>
 <div class="d-flex justify-content-between">
     <a href="{% url 'create_course' %}" class="btn btn-primary fw-bold mb-3">Add New Course</a>

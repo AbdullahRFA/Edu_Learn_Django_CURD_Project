@@ -10,7 +10,7 @@ def course_list(request):
 
 def Course_Details(request,id):
     course = get_object_or_404(Course, id=id)
-    lessons = course.lesson.all()
+    lessons = course.lessons.all()
     context ={
         'course':course,
         'lessons':lessons
@@ -87,9 +87,9 @@ def create_lesson(request):
 
 def lesson_edit(request,id):
     lesson = get_object_or_404(Lesson,id=id)
-    form = LessonForm, StudentForm(instance=lesson)
+    form = LessonForm(instance=lesson)
     if request.method == "POST":
-        form = LessonForm, StudentForm(request.POST,request.FILES,instance=lesson)
+        form = LessonForm(request.POST,request.FILES,instance=lesson)
         if form.is_valid():
             form.save()
             messages.success(request,"Lesson update Successfully")
@@ -162,3 +162,16 @@ def delete_student(request,id):
         'student' : student
     }
     return render(request,"Course_app/delete_confirmation_form.html",context)
+
+
+def individual_course_enrolled_student(request,id):
+    course = get_object_or_404(Course,id=id)
+    students = course.students.all()
+    
+    context = {
+        'course':course,
+        'students':students,
+        'check':1
+    }
+    
+    return render(request,"Course_app/student_list.html",context)

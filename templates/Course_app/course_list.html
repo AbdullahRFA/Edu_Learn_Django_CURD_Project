@@ -51,6 +51,7 @@
             <td>
                 <a href="{% url 'create_lesson' %}" class="btn btn-info btn-sm mb-1">Add Lesson</a>
                 <a href="{% url 'coursedetails' course.id %}" class="btn btn-secondary btn-sm mt-1">View Lesson</a>
+                <a href="{% url 'individual_course_enrolled_student' course.id %}" class="btn btn-primary btn-sm mt-1">View Student</a>
             </td>
         </tr>
         {% endfor %}

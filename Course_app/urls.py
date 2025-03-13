@@ -25,4 +25,8 @@ urlpatterns = [
     
     
     
+    path('individual_course_enrolled_student/<int:id>',views.individual_course_enrolled_student,name='individual_course_enrolled_student'),
+    
+    
+    
 ]
