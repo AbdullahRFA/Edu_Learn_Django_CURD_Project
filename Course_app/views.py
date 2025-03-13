@@ -120,7 +120,11 @@ def lesson_delete(request,id):
 
 def student_list(request):
     students = Student.objects.all()
-    return render(request,"Course_app/student_list.html",{'students':students})
+    context = {
+        'check':1,
+        'students':students
+    }
+    return render(request,"Course_app/student_list.html",context)
 
 def Enroll_student(request):
     form = StudentForm()
@@ -171,7 +175,24 @@ def individual_course_enrolled_student(request,id):
     context = {
         'course':course,
         'students':students,
-        'check':1
+        'check':2
     }
     
+    return render(request,"Course_app/student_list.html",context)
+
+def Course_wise_Student(request):
+    courses = Course.objects.all()
+    
+    context = {
+        'courses':courses
+    }
+    return render(request,"Course_app/Course_wise_Student.html",context)
+
+
+def individual_student_detail(request,id):
+    student = get_object_or_404(Student,id=id)
+    context = {
+        'student':student,
+        'check':3
+        }
     return render(request,"Course_app/student_list.html",context)

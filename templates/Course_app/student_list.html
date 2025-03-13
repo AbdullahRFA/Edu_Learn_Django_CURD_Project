@@ -3,11 +3,13 @@
 
 {% block title %}
 
-{% if check == 1 %}
+{% if check == 2 %}
 Enrolled Student of 
 {{course.title}} Course
-{% else %}
-Student List
+{% elif check == 1 %}
+Students List
+{% elif check == 3%}
+Sudent Information
 {% endif %}
     
 {% endblock title %}
@@ -15,11 +17,13 @@ Student List
 {% block content %}
 <div class="text-center mb-4">
     <h1 class="fw-bold">
-    {% if check == 1 %}
+    {% if check == 2 %}
     Enrolled Student of
     <span class="text-danger">"{{course.title}}"</span> Course
-    {% else %}
-    Student List
+    {% elif check == 3 %}
+        Student Information
+    {% elif check == 1 %}
+    Students List
     {% endif %}
     </h1>
 </div>
@@ -40,6 +44,30 @@ Student List
         </tr>
     </thead>
     <tbody>
+        
+        {% if check == 3 %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.roll }}</td>
+            <td>{{ student.email }}</td>
+            <td>     
+                <ol>
+                    
+                    {% for course in student.enrolled_courses.all %}
+                    <li><a href="{% url 'coursedetails' course.id %}">{{course.title}}</a></li>
+                    {% endfor %}
+                        
+                </ol>
+            </td>
+             <td>
+                <a href="{% url 'update_student' student.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
+                <form action="{% url 'delete_student' student.id %}" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
+                </form>
+            </td> 
+        </tr>
+        {% else %}
         {% for student in students %}
         <tr>
             <td>{{ forloop.counter }}</td>
@@ -62,7 +90,11 @@ Student List
                 </form>
             </td> 
         </tr>
+            
         {% endfor %}
+        {% endif %}
+            
+        
     </tbody>
 </table>
 <div class="d-flex justify-content-center">

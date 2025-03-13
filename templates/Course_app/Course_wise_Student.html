@@ -1,0 +1,58 @@
+<!-- index.html -->
+{% extends 'Course_app/base.html' %}
+
+{% block title %}
+    Course_Wiew_Students
+{% endblock title %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1 class="fw-bold">Course Wise Students</h1>
+</div>
+<div class="d-flex justify-content-between">
+    <a href="{% url 'create_course' %}" class="btn btn-outline-primary fw-bold mb-3">Add New Course</a>
+    <a href="{% url 'Enroll_student' %}" class="btn btn-outline-warning fw-bold mb-3">Enroll Student</a>
+
+</div>
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Course_ID</th>
+            <th>Title</th>
+            <th>Enrolled_Studens</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ course.title }}</td>
+            <td>     
+                <ol>
+                    
+                    {% for student in course.students.all %}
+                    <li><a href="{% url 'individual_student_detail' student.id %}">{{student.name}}</a></li>
+                    {% endfor %}
+                        
+                </ol>
+            </td>
+            
+            {% if student.id %}
+                
+            <td>
+               <a href="{% url 'update_student' student.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
+               <form action="{% url 'delete_student' student.id %}" class="d-inline">
+                   <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
+               </form>
+           </td> 
+            {% endif %}
+                
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="d-flex justify-content-center">
+    <a href="{% url 'course_list' %}" class="btn btn-outline-success ">Back to home</a>
+
+</div>
+{% endblock content %}
