@@ -118,6 +118,9 @@ def lesson_delete(request,id):
     return render(request,"Course_app/delete_confirmation_form.html",context)
 
 
+def student_list(request):
+    students = Student.objects.all()
+    return render(request,"Course_app/student_list.html",{'students':students})
 
 def Enroll_student(request):
     form = StudentForm()
@@ -133,7 +136,17 @@ def Enroll_student(request):
     }
     return render(request,"Course_app/input_and_update_form.html",context)
 
-
-def student_list(request):
-    students = Student.objects.all()
-    return render(request,"Course_app/student_list.html",{'students':students})
+def update_student(request,id):
+    student = get_object_or_404(Student,id = id)
+    form = StudentForm(instance=student)
+    if request.method == "POST":
+        form = StudentForm(request.POST,request.FILES,instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Student Updated Successfully")
+            return redirect('course_list')
+    context = {
+        'check' : 6,
+        'form' : form
+    }
+    return render(request,"Course_app/input_and_update_form.html",context)
