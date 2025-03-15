@@ -1,0 +1,67 @@
+{% extends "Course_app/base.html" %}
+
+{% block title %} Our Services {% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Our Services</h1>
+
+    <div class="row">
+        <!-- Course Management -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="text-success"><i class="fas fa-book"></i> Course Management</h3>
+                    <p>
+                        We offer a structured system where users can browse, enroll in, and manage various courses effortlessly.
+                        Course creators can upload lessons and manage student enrollments with ease.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lesson Management -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="text-success"><i class="fas fa-chalkboard-teacher"></i> Lesson Management</h3>
+                    <p>
+                        Each course consists of multiple lessons. Our platform ensures a smooth experience for instructors 
+                        to create, edit, and delete lessons with rich-text formatting and multimedia support.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Enrollment -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="text-success"><i class="fas fa-user-graduate"></i> Student Enrollment</h3>
+                    <p>
+                        Students can enroll in courses and track their progress. The system provides an intuitive 
+                        dashboard to manage course enrollments and access learning materials conveniently.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secure Authentication -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="text-success"><i class="fas fa-lock"></i> Secure Authentication</h3>
+                    <p>
+                        Our platform ensures secure user authentication, allowing users to register, log in, and manage 
+                        their accounts with a robust and reliable authentication system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'course_list' %}" class="btn btn-outline-primary">Browse Courses</a>
+    </div>
+</div>
+{% endblock content %}

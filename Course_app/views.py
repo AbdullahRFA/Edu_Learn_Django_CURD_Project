@@ -268,3 +268,10 @@ def register_user(request):
     }
     
     return render(request,"Course_app/user_login_and_register_form.html",context)
+
+
+def about(request):
+    return render(request,"Course_app/about.html")
+
+def services(request):
+    return render(request,"Course_app/services.html")

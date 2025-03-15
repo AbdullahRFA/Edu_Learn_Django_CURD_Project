@@ -1,0 +1,37 @@
+{% extends "Course_app/base.html" %}
+
+{% block title %} About Us {% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">About EduLearn</h1>
+
+    <div class="card shadow-lg p-4">
+        <h2 class="text-success">Our Mission</h2>
+        <p>
+            EduLearn is an innovative e-learning platform designed to provide a seamless and interactive learning experience. 
+            Our mission is to bridge the gap between learners and quality education by offering a user-friendly course 
+            management system.
+        </p>
+
+        <h2 class="text-success mt-4">Why Choose Us?</h2>
+        <ul>
+            <li>✅ A vast collection of courses from various domains</li>
+            <li>✅ Interactive and structured lessons</li>
+            <li>✅ Easy enrollment process</li>
+            <li>✅ Seamless user authentication and profile management</li>
+            <li>✅ Secure and reliable system with real-time data access</li>
+        </ul>
+
+        <h2 class="text-success mt-4">Meet Our Team</h2>
+        <p>
+            We are a dedicated team of developers and educators passionate about creating a positive impact in the learning 
+            community. Our platform is continuously evolving to cater to the needs of students and educators worldwide.
+        </p>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'course_list' %}" class="btn btn-outline-primary">Explore Courses</a>
+    </div>
+</div>
+{% endblock content %}
