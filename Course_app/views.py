@@ -2,14 +2,17 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
-from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm
 from .models import Course, Lesson, Student
 
-# Create your views here.
+# html_path_variabl
+html_path_delete_confirmation_form = "Course_app/delete_confirmation_form.html"
+html_path_for_student_list="Course_app/student_list.html"
+html_path_for_input_and_update="Course_app/input_and_update_form.html"
 
+# Create your views here.
 @login_required(login_url='login_user')
 def course_list(request):
     courses = Course.objects.all()
@@ -42,7 +45,8 @@ def create_course(request):
         'form': form
     }
 
-    return render(request, "Course_app/input_and_update_form.html", context)  # ✅ Pass the correct form
+
+    return render(request, html_path_for_input_and_update, context)  # ✅ Pass the correct form
 
 
 @login_required(login_url='login_user')
@@ -64,7 +68,7 @@ def course_edit(request, id):
         'course': course,
         'form': form
     }
-    return render(request, "Course_app/input_and_update_form.html", context)
+    return render(request, html_path_for_input_and_update, context)
 
 @login_required(login_url='login_user')
 def course_delete(request,id):
@@ -77,7 +81,7 @@ def course_delete(request,id):
         'course' : course,
         'check' : 2
     }
-    return render(request,"Course_app/delete_confirmation_form.html",context)
+    return render(request,html_path_delete_confirmation_form,context)
 
 
 
@@ -94,7 +98,7 @@ def create_lesson(request):
         'check': 3,
         'form':form
     }
-    return render(request,"Course_app/input_and_update_form.html",context)
+    return render(request,html_path_for_input_and_update,context)
 
 @login_required(login_url='login_user')
 def lesson_edit(request,id):
@@ -112,7 +116,7 @@ def lesson_edit(request,id):
         'check' : 4,
         'form' : form
     }
-    return render(request,"Course_app/input_and_update_form.html",context)
+    return render(request,html_path_for_input_and_update,context)
 
 
 @login_required(login_url='login_user')
@@ -128,7 +132,7 @@ def lesson_delete(request,id):
         
     }
     
-    return render(request,"Course_app/delete_confirmation_form.html",context)
+    return render(request,html_path_delete_confirmation_form,context)
 
 @login_required(login_url='login_user')
 def student_list(request):
@@ -137,7 +141,7 @@ def student_list(request):
         'check':1,
         'students':students
     }
-    return render(request,"Course_app/student_list.html",context)
+    return render(request,html_path_for_student_list,context)
 
 @login_required(login_url='login_user')
 def Enroll_student(request):
@@ -152,7 +156,7 @@ def Enroll_student(request):
         'check' : 5,
         'form' : form
     }
-    return render(request,"Course_app/input_and_update_form.html",context)
+    return render(request,html_path_for_input_and_update,context)
 
 @login_required(login_url='login_user')
 def update_student(request,id):
@@ -168,7 +172,7 @@ def update_student(request,id):
         'check' : 6,
         'form' : form
     }
-    return render(request,"Course_app/input_and_update_form.html",context)
+    return render(request,html_path_for_input_and_update,context)
 
 @login_required(login_url='login_user')
 def delete_student(request,id):
@@ -181,7 +185,7 @@ def delete_student(request,id):
         'check' : 3,
         'student' : student
     }
-    return render(request,"Course_app/delete_confirmation_form.html",context)
+    return render(request,html_path_delete_confirmation_form,context)
 
 
 @login_required(login_url='login_user')
@@ -195,7 +199,7 @@ def individual_course_enrolled_student(request,id):
         'check':2
     }
     
-    return render(request,"Course_app/student_list.html",context)
+    return render(request,html_path_for_student_list,context)
 
 @login_required(login_url='login_user')
 def Course_wise_Student(request):
@@ -214,10 +218,12 @@ def individual_student_detail(request,id):
         'student':student,
         'check':3
         }
-    return render(request,"Course_app/student_list.html",context)
+    return render(request,html_path_for_student_list,context)
 
 
 
+
+# Uder Authentication process
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request, request.POST)
