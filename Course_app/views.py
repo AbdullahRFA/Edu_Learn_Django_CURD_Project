@@ -1,13 +1,22 @@
-from django.shortcuts import render,HttpResponse,get_object_or_404,redirect
-from .models import Student,Course,Lesson
-from .forms import CourseForm, LessonForm, StudentForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+
+from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm
+from .models import Course, Lesson, Student
+
 # Create your views here.
+
+@login_required(login_url='login_user')
 def course_list(request):
     courses = Course.objects.all()
     
     return render(request,"Course_app/course_list.html",{"courses":courses})
 
+@login_required(login_url='login_user')
 def Course_Details(request,id):
     course = get_object_or_404(Course, id=id)
     lessons = course.lessons.all()
@@ -18,7 +27,7 @@ def Course_Details(request,id):
     
     return render(request,"Course_app/Course_details.html",context)
 
-
+@login_required(login_url='login_user')
 def create_course(request):
     form = CourseForm()  # ✅ Initialize the form once
 
@@ -36,6 +45,7 @@ def create_course(request):
     return render(request, "Course_app/input_and_update_form.html", context)  # ✅ Pass the correct form
 
 
+@login_required(login_url='login_user')
 def course_edit(request, id):
     course = get_object_or_404(Course, id=id)  # Fetch the course object
 
@@ -56,6 +66,7 @@ def course_edit(request, id):
     }
     return render(request, "Course_app/input_and_update_form.html", context)
 
+@login_required(login_url='login_user')
 def course_delete(request,id):
     course = get_object_or_404(Course,id=id)
     if request.method == "POST":
@@ -70,7 +81,7 @@ def course_delete(request,id):
 
 
 
-
+@login_required(login_url='login_user')
 def create_lesson(request):
     form = LessonForm()
     if request.method == "POST":
@@ -85,6 +96,7 @@ def create_lesson(request):
     }
     return render(request,"Course_app/input_and_update_form.html",context)
 
+@login_required(login_url='login_user')
 def lesson_edit(request,id):
     lesson = get_object_or_404(Lesson,id=id)
     form = LessonForm(instance=lesson)
@@ -103,6 +115,7 @@ def lesson_edit(request,id):
     return render(request,"Course_app/input_and_update_form.html",context)
 
 
+@login_required(login_url='login_user')
 def lesson_delete(request,id):
     lesson = get_object_or_404(Lesson, id = id)
     if request.method == "POST":
@@ -117,7 +130,7 @@ def lesson_delete(request,id):
     
     return render(request,"Course_app/delete_confirmation_form.html",context)
 
-
+@login_required(login_url='login_user')
 def student_list(request):
     students = Student.objects.all()
     context = {
@@ -126,6 +139,7 @@ def student_list(request):
     }
     return render(request,"Course_app/student_list.html",context)
 
+@login_required(login_url='login_user')
 def Enroll_student(request):
     form = StudentForm()
     if request.method == "POST":
@@ -140,6 +154,7 @@ def Enroll_student(request):
     }
     return render(request,"Course_app/input_and_update_form.html",context)
 
+@login_required(login_url='login_user')
 def update_student(request,id):
     student = get_object_or_404(Student,id = id)
     form = StudentForm(instance=student)
@@ -155,6 +170,7 @@ def update_student(request,id):
     }
     return render(request,"Course_app/input_and_update_form.html",context)
 
+@login_required(login_url='login_user')
 def delete_student(request,id):
     student = get_object_or_404(Student,id = id)
     if request.method == "POST":
@@ -168,6 +184,7 @@ def delete_student(request,id):
     return render(request,"Course_app/delete_confirmation_form.html",context)
 
 
+@login_required(login_url='login_user')
 def individual_course_enrolled_student(request,id):
     course = get_object_or_404(Course,id=id)
     students = course.students.all()
@@ -180,6 +197,7 @@ def individual_course_enrolled_student(request,id):
     
     return render(request,"Course_app/student_list.html",context)
 
+@login_required(login_url='login_user')
 def Course_wise_Student(request):
     courses = Course.objects.all()
     
@@ -189,6 +207,7 @@ def Course_wise_Student(request):
     return render(request,"Course_app/Course_wise_Student.html",context)
 
 
+@login_required(login_url='login_user')
 def individual_student_detail(request,id):
     student = get_object_or_404(Student,id=id)
     context = {
@@ -196,3 +215,50 @@ def individual_student_detail(request,id):
         'check':3
         }
     return render(request,"Course_app/student_list.html",context)
+
+
+
+def login_user(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username = username, password = password)
+            if user is not None:
+                login(request, user)
+                messages.success(request,f"Welcome {username}!")
+                return redirect('course_list')
+            else:
+                messages.error(request,"Invalid usename or password!")
+    else:
+        form = AuthenticationForm()
+    context = {
+        'check' : 2,
+        'form' : form,
+    }
+    return render(request,"Course_app/user_login_and_register_form.html",context)   
+
+@login_required(login_url='login_user') 
+def logout_user(request):
+    logout(request)
+    messages.info(request, "You have been Logout!")
+    return redirect('login_user')
+
+
+
+def register_user(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Account created Successfully")
+            return redirect('login_user')
+    else:
+        form = UserRegistrationForm()
+    context = {
+        'check' : 1,
+        'form':form
+    }
+    
+    return render(request,"Course_app/user_login_and_register_form.html",context)

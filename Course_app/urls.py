@@ -29,7 +29,9 @@ urlpatterns = [
     path('Course_wise_Student/',views.Course_wise_Student,name='Course_wise_Student'),
     path('individual_student_detail/<int:id>',views.individual_student_detail,name='individual_student_detail'),
     
-    
+    path('login_user',views.login_user,name='login_user'),
+    path('logout_user',views.logout_user,name='logout_user'),
+    path('register_user',views.register_user,name='register_user'),
     
     
 ]

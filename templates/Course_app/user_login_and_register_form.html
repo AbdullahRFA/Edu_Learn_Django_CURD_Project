@@ -1,0 +1,52 @@
+{% extends 'Course_app/base.html' %}
+
+{% block title %}
+    {% if check == 1 %}
+        Registration Form
+    {% elif check == 2 %}
+        Login Form
+    {% endif %}
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary">
+            {% if check == 1 %}Register{% elif check == 2 %}Login{% endif %}
+        </h2>
+
+        <!-- Display Form Errors -->
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Please correct the errors below:</strong>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form action="" method="post" enctype="multipart/form-data" class="p-3">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                {% if check == 1 %}Create Account{% elif check == 2 %}Login{% endif %}
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            {% if check == 1 %}
+                <p>Already have an account? <a href="{% url 'login_user' %}" class="text-primary fw-bold">Sign in</a></p>
+            {% elif check == 2 %}
+                <p>Don't have an account? <a href="{% url 'register_user' %}" class="text-primary fw-bold">Sign up</a></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
