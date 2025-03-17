@@ -288,6 +288,7 @@ def services(request):
     return render(request,"Course_app/services.html")
 
 
+# Forget password and reset section
 
 # Dictionary to store OTPs temporarily
 otp_storage = {}
