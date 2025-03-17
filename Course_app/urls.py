@@ -40,6 +40,9 @@ urlpatterns = [
     
     
     
+    path('forgot_password/', views.request_password_reset, name='forgot_password'),
+    path('verify_otp/<str:email>/', views.verify_otp, name='verify_otp'),
+    path('reset_password/<str:email>/', views.reset_password, name='reset_password'),
     
     
     

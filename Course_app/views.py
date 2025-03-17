@@ -3,9 +3,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
-
 from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm
 from .models import Course, Lesson, Student
+
+# for sending mail to get otp
+import random
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import PasswordResetRequestForm
+from django.contrib.auth.hashers import make_password
+
+
+
+
 
 # html_path_variabl
 html_path_delete_confirmation_form = "Course_app/delete_confirmation_form.html"
@@ -275,3 +286,75 @@ def about(request):
 
 def services(request):
     return render(request,"Course_app/services.html")
+
+
+
+# Dictionary to store OTPs temporarily
+otp_storage = {}
+
+def send_otp(email):
+    """Generate and send OTP to the user's email."""
+    otp = random.randint(100000, 999999)  # Generate 6-digit OTP
+    otp_storage[email] = otp  # Store OTP temporarily
+
+    subject = "Password Reset OTP - EduLearn"
+    message = f"Hello,\n\nYour OTP for password reset is: {otp}\n\nDo not share this OTP with anyone."
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+
+    send_mail(subject, message, from_email, recipient_list)
+
+def request_password_reset(request):
+    """Handle password reset request and send OTP."""
+    if request.method == "POST":
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user = User.objects.filter(email=email).first()
+            
+            if user:
+                send_otp(email)
+                messages.success(request, "OTP has been sent to your email.")
+                return redirect('verify_otp', email=email)  # Redirect to OTP verification
+            else:
+                messages.error(request, "No user found with this email.")
+    
+    else:
+        form = PasswordResetRequestForm()
+    
+    return render(request, "Course_app/request_password_reset.html", {'form': form})
+
+def verify_otp(request, email):
+    """Verify the OTP entered by the user."""
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")
+
+        if otp_storage.get(email) and str(otp_storage[email]) == entered_otp:
+            del otp_storage[email]  # Remove OTP after successful verification
+            messages.success(request, "OTP verified successfully. Set a new password.")
+            return redirect('reset_password', email=email)
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+    
+    return render(request, "Course_app/verify_otp.html", {'email': email})
+
+
+def reset_password(request, email):
+    """Allow the user to reset their password."""
+    if request.method == "POST":
+        new_password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password == confirm_password:
+            user = User.objects.filter(email=email).first()
+            if user:
+                user.password = make_password(new_password)  # Hash the password
+                user.save()
+                messages.success(request, "Password reset successfully. Please login.")
+                return redirect('login_user')
+            else:
+                messages.error(request, "User not found.")
+        else:
+            messages.error(request, "Passwords do not match. Try again.")
+    
+    return render(request, "Course_app/reset_password.html", {'email': email})
