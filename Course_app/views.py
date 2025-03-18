@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm
+from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm, UserUpdateForm
 from .models import Course, Lesson, Student
 
 # for sending mail to get otp
@@ -280,6 +280,22 @@ def register_user(request):
     
     return render(request,"Course_app/user_login_and_register_form.html",context)
 
+def user_profile(request):
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.info(request,"Profile updated Successfully")
+            redirect('user_profile')
+        else:
+            messages.error(request,"form does not update try again")
+    else:
+        form = UserUpdateForm(instance=request.user)
+    context ={
+        'form':form
+    }
+        
+    return render(request,"Course_app/profile.html",context)
 
 def about(request):
     return render(request,"Course_app/about.html")

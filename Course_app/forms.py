@@ -41,8 +41,6 @@ class UserRegistrationForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={'class': 'form-control ', 'placeholder': 'Enter your email'})
     )
-
-
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
@@ -53,9 +51,19 @@ class UserRegistrationForm(UserCreationForm):
             'password2': forms.PasswordInput(attrs={'class': 'form-control ', 'placeholder': 'Confirm your password'}),
         }
         
+        
 class PasswordResetRequestForm(forms.Form):
     email = forms.EmailField(
         max_length=254, 
         required=True,
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'})
     )
+    
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','email']
+        widgets = {
+            'username':forms.TextInput(attrs={'class':'form-control'}),
+            'email':forms.EmailInput(attrs={'class':'form-control'})
+        }
