@@ -1,32 +1,51 @@
 {% extends "Course_app/base.html" %}
-{% block title %}
-{% if check == 1 %}
-    Delete Lesson
-{% else %}
-Delete Course
 
-{% endif %}
+{% block title %}
+    {% if check == 1 %}
+        Delete Lesson
+    {% elif check == 2 %}
+        Delete Course
+    {% elif check == 3 %}
+        Delete Student
+    {% endif %}
 {% endblock %}
-    
 
 {% block content %}
-<div class="container mt-4">
-    
-    {% if check == 1 %}
-    <h2>Are you sure you want to delete "<span class="text-danger">{{ lesson.title }} Lesson</span>"? </h2>
-    {% elif check == 2 %}
-    <h2>Are you sure you want to delete "<span class="text-danger">{{ course.title }} Course</span>"? </h2>
-    {% elif check == 3 %}
-    <h2>Are you sure you want to delete "<span class="text-danger">{{ student.name }}</span>"? </h2>
-        
-    {% endif %}
-        
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+            <h2 class="text-center text-danger">
+                {% if check == 1 %}
+                    Delete Lesson
+                {% elif check == 2 %}
+                    Delete Course
+                {% elif check == 3 %}
+                    Delete Student
+                {% endif %}
+            </h2>
+            <div class="alert alert-warning text-center">
+                <strong>
+                    {% if check == 1 %}
+                        Are you sure you want to delete the lesson "<span class="text-danger">{{ lesson.title }}</span>"?
+                    {% elif check == 2 %}
+                        Are you sure you want to delete the course "<span class="text-danger">{{ course.title }}</span>"?
+                    {% elif check == 3 %}
+                        Are you sure you want to delete the student "<span class="text-danger">{{ student.name }}</span>"?
+                    {% endif %}
+                </strong>
+                <p class="mt-2">This action cannot be undone.</p>
+            </div>
 
-<p>This action cannot be undone.</p>
-<form method="post">
-{% csrf_token %}
-<button type="submit" class="btn btn-danger">Yes, Delete</button>
-<a href="{% url 'course_list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger fw-bold">
+                    <i class="fas fa-trash-alt"></i> Yes, Delete
+                </button>
+                <a href="{% url 'course_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

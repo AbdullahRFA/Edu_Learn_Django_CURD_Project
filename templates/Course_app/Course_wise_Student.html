@@ -1,58 +1,70 @@
-<!-- index.html -->
 {% extends 'Course_app/base.html' %}
 
-{% block title %}
-    Course_Wiew_Students
-{% endblock title %}
+{% block title %}Course-Wise Students{% endblock title %}
 
 {% block content %}
-<div class="text-center mb-4">
-    <h1 class="fw-bold">Course Wise Students</h1>
-</div>
-<div class="d-flex justify-content-between">
-    <a href="{% url 'create_course' %}" class="btn btn-outline-primary fw-bold mb-3">Add New Course</a>
-    <a href="{% url 'Enroll_student' %}" class="btn btn-outline-warning fw-bold mb-3">Enroll Student</a>
+<div class="container">
+    <!-- Page Header -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">Course-Wise Enrolled Students</h1>
+    </div>
 
-</div>
-<table class="table table-bordered table-hover text-center">
-    <thead class="table-dark">
-        <tr>
-            <th>Course_ID</th>
-            <th>Title</th>
-            <th>Enrolled_Studens</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for course in courses %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ course.title }}</td>
-            <td>     
-                <ol>
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'create_course' %}" class="btn btn-outline-primary fw-bold mb-3">
+            <i class="fas fa-plus"></i> Add New Course
+        </a>
+        <a href="{% url 'Enroll_student' %}" class="btn btn-outline-warning fw-bold mb-3">
+            <i class="fas fa-user-plus"></i> Enroll Student
+        </a>
+    </div>
+
+    <!-- Course & Enrolled Students Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Course Title</th>
+                    <th>Enrolled Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td class="fw-bold">{{ forloop.counter }}</td>
+                    <td class="text-primary fw-semibold">{{ course.title }}</td>
+                    <td>
+                        {% if course.students.all %}
+                            <ul class="list-unstyled text-start">
+                                {% for student in course.students.all %}
+                                <li>
+                                    <a href="{% url 'individual_student_detail' student.id %}" class="text-decoration-none fw-bold text-dark">
+                                        <i class="fas fa-user-graduate"></i> {{ student.name }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span class="text-muted">No students enrolled</span>
+                        {% endif %}
+                    </td>
                     
-                    {% for student in course.students.all %}
-                    <li><a href="{% url 'individual_student_detail' student.id %}">{{student.name}}</a></li>
-                    {% endfor %}
-                        
-                </ol>
-            </td>
-            
-            {% if student.id %}
-                
-            <td>
-               <a href="{% url 'update_student' student.id %}" class="btn btn-sm btn-warning my-2"><i class='fas fa-edit'></i>Edit</a>
-               <form action="{% url 'delete_student' student.id %}" class="d-inline">
-                   <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
-               </form>
-           </td> 
-            {% endif %}
-                
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<div class="d-flex justify-content-center">
-    <a href="{% url 'course_list' %}" class="btn btn-outline-success ">Back to home</a>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-danger fw-bold">No courses found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <!-- Back Button -->
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{% url 'course_list' %}" class="btn btn-outline-success">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
 </div>
 {% endblock content %}

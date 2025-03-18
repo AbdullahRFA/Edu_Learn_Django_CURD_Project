@@ -280,7 +280,7 @@ def register_user(request):
     return render(request,"Course_app/user_login_and_register_form.html",context)
 
 @login_required(login_url='login_user')
-def user_profile(request):
+def update_profile(request):
     if request.method == "POST":
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -295,7 +295,7 @@ def user_profile(request):
         'form':form
     }
         
-    return render(request,"Course_app/profile.html",context)
+    return render(request,"Course_app/update_profile.html",context)
 
 def about(request):
     return render(request,"Course_app/about.html")
