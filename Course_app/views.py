@@ -379,18 +379,20 @@ def reset_password(request, email):
     return render(request, "Course_app/reset_password.html", {'email': email})
 
 
+
 @login_required(login_url='login_user')
 def change_password(request):
     if request.method == 'POST':
-        form = UserPasswordChangeForm(request.user, request.POST)
+        form = UserPasswordChangeForm(data=request.POST, user=request.user)  # ✅ Corrected form initialization
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Keep the user logged in
+            update_session_auth_hash(request, user)  # ✅ Keep user logged in
             messages.success(request, "Your password was successfully updated!")
-            return render(request,"Course_app/password_change_complete.html")  # Redirect to home page or dashboard
-        else:
-            messages.error(request, "Please correct the error below.")
+            return redirect('password_change_complete')  # ✅ Redirect instead of re-rendering
     else:
-        form = UserPasswordChangeForm(request.user)
-    
+        form = UserPasswordChangeForm(user=request.user)
+
     return render(request, 'Course_app/change_password.html', {'form': form})
+
+def password_change_complete(request):
+    return render(request, 'Course_app/password_change_complete.html')
