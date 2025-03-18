@@ -10,7 +10,7 @@ class Course(models.Model):
         return self.title
 
 class Lesson(models.Model):
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=60)
     content = models.TextField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="lessons")  # ✅ Corrected related_name
 
