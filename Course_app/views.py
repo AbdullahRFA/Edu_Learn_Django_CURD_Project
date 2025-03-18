@@ -263,7 +263,6 @@ def logout_user(request):
     return redirect('login_user')
 
 
-
 def register_user(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -369,7 +368,7 @@ def reset_password(request, email):
                 user.password = make_password(new_password)  # Hash the password
                 user.save()
                 messages.success(request, "Password reset successfully. Please login.")
-                return redirect('login_user')
+                return render(request,'Course_app/password_reset_complete.html')
             else:
                 messages.error(request, "User not found.")
         else:
@@ -386,7 +385,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Keep the user logged in
             messages.success(request, "Your password was successfully updated!")
-            return redirect('course_list')  # Redirect to home page or dashboard
+            return render(request,"Course_app/password_change_complete.html")  # Redirect to home page or dashboard
         else:
             messages.error(request, "Please correct the error below.")
     else:
