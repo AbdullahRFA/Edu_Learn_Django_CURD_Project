@@ -279,23 +279,25 @@ def register_user(request):
     
     return render(request,"Course_app/user_login_and_register_form.html",context)
 
+
+@login_required(login_url='login_user')
+def user_profile(request):
+    return render(request, 'Course_app/user_profile.html')
+
+
 @login_required(login_url='login_user')
 def update_profile(request):
+    user = request.user
     if request.method == "POST":
-        form = UserUpdateForm(request.POST, instance=request.user)
+        form = UserUpdateForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            messages.info(request,"Profile updated Successfully")
-            redirect('user_profile')
-        else:
-            messages.error(request,"form does not update try again")
+            messages.success(request, "Profile updated successfully!")
+            return redirect('user_profile')
     else:
-        form = UserUpdateForm(instance=request.user)
-    context ={
-        'form':form
-    }
-        
-    return render(request,"Course_app/update_profile.html",context)
+        form = UserUpdateForm(instance=user)
+    
+    return render(request, 'Course_app/update_profile.html', {'form': form})
 
 def about(request):
     return render(request,"Course_app/about.html")

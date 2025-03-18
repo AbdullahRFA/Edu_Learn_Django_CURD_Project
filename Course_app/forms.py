@@ -60,13 +60,20 @@ class PasswordResetRequestForm(forms.Form):
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'})
     )
     
+
 class UserUpdateForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=15, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    date_of_birth = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    address = forms.CharField(max_length=255, required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}))
+
     class Meta:
         model = User
-        fields = ['username','email']
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'date_of_birth', 'address']
         widgets = {
-            'username':forms.TextInput(attrs={'class':'form-control'}),
-            'email':forms.EmailInput(attrs={'class':'form-control'})
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
         }
         
         

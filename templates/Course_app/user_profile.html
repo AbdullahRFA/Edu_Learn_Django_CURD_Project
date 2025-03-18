@@ -1,0 +1,85 @@
+{% extends 'Course_app/base.html' %}
+
+{% block title %}User Profile{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+            <h2 class="text-primary text-center fw-bold">
+                <i class="fas fa-user-circle"></i> User Profile
+            </h2>
+            <hr>
+
+            <table class="table table-bordered mt-4">
+                <tbody>
+                    <tr>
+                        <th class="text-start">User ID:</th>
+                        <td class="text-start">{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Username:</th>
+                        <td class="text-start">{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Email:</th>
+                        <td class="text-start">{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">First Name:</th>
+                        <td class="text-start">{{ user.first_name|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Last Name:</th>
+                        <td class="text-start">{{ user.last_name|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Phone Number:</th>
+                        <td class="text-start">{{ user.phone_number|default:"Not Provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Date of Birth:</th>
+                        <td class="text-start">
+                            {% if user.date_of_birth %}
+                                {{ user.date_of_birth|date:"d M, Y" }}
+                            {% else %}
+                                <span class="text-muted">Not Provided</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Address:</th>
+                        <td class="text-start">{{ user.address|default:"Not Provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Date Joined:</th>
+                        <td class="text-start">{{ user.date_joined|date:"d M, Y - H:i A" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start">Last Login:</th>
+                        <td class="text-start">
+                            {% if user.last_login %}
+                                {{ user.last_login|date:"d M, Y - H:i A" }}
+                            {% else %}
+                                <span class="text-muted">Never Logged In</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{% url 'update_profile' %}" class="btn btn-outline-warning">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </a>
+                <a href="{% url 'change_password' %}" class="btn btn-outline-danger">
+                    <i class="fas fa-key"></i> Change Password
+                </a>
+                <a href="{% url 'course_list' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
