@@ -1,9 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm, UserUpdateForm
+from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm, UserUpdateForm, UserPasswordChangeForm
 from .models import Course, Lesson, Student
 
 # for sending mail to get otp
@@ -280,6 +280,7 @@ def register_user(request):
     
     return render(request,"Course_app/user_login_and_register_form.html",context)
 
+@login_required(login_url='login_user')
 def user_profile(request):
     if request.method == "POST":
         form = UserUpdateForm(request.POST, instance=request.user)
@@ -375,3 +376,20 @@ def reset_password(request, email):
             messages.error(request, "Passwords do not match. Try again.")
     
     return render(request, "Course_app/reset_password.html", {'email': email})
+
+
+@login_required(login_url='login_user')
+def change_password(request):
+    if request.method == 'POST':
+        form = UserPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Keep the user logged in
+            messages.success(request, "Your password was successfully updated!")
+            return redirect('course_list')  # Redirect to home page or dashboard
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = UserPasswordChangeForm(request.user)
+    
+    return render(request, 'Course_app/change_password.html', {'form': form})

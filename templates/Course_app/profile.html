@@ -8,7 +8,11 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-outline-success">Update</button>
+            <a href="{% url 'course_list' %}" class="btn btn-outline-primary">Cancel</a>
+
+        </div>
     </form>
 </div>
 {% endblock content %}

@@ -34,9 +34,18 @@
             <div class="mb-3">
                 {{ form.as_p }}
             </div>
-
+            
+            {% if check == 2 %}
+            <a href="{% url 'forgot_password' %}" class="text-danger fw-bold text-decoration-none">Forgot Password?</a><br><br>
+                
+            {% endif %}
+                
             <button type="submit" class="btn btn-primary w-100">
-                {% if check == 1 %}Create Account{% elif check == 2 %}Login{% endif %}
+                {% if check == 1 %}
+                    Create Account
+                {% elif check == 2 %}
+                    Login
+                {% endif %}
             </button>
         </form>
 
