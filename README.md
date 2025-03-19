@@ -119,30 +119,119 @@ Edu_Learn_Django_CURD_Project/
 ```
 ---
 
-### 📌 API Endpoints & URLs
-```sh
-Feature	URL	Method
-User Registration	/register_user/	POST
-Login	/login_user/	POST
-Logout	/logout_user/	GET
-Change Password	/change_password/	POST
-Forgot Password	/forgot_password/	POST
-Reset Password	/reset_password/	POST
-Courses List	/course_list/	GET
-Create Course	/create_course/	POST
-Edit Course	/course_edit/<id>/	POST
-Delete Course	/course_delete/<id>/	POST
-Create Lesson	/create_lesson/	POST
-Edit Lesson	/lesson_edit/<id>/	POST
-Delete Lesson	/lesson_delete/<id>/	POST
-Enroll Student	/Enroll_student/	POST
-View Student	/student_list/	GET
-Update Student	/update_student/<id>/	POST
-Delete Student	/delete_student/<id>/	POST
-User Profile	/user_profile/	GET
-Update Profile	/update_profile/	POST
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">📌 API Endpoints & URLs</h2>
 
-```
+<div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Feature</th>
+                    <th>URL</th>
+                    <th>Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>User Registration</td>
+                    <td><code>/register_user/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Login</td>
+                    <td><code>/login_user/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Logout</td>
+                    <td><code>/logout_user/</code></td>
+                    <td><span class="badge bg-success">GET</span></td>
+                </tr>
+                <tr>
+                    <td>Change Password</td>
+                    <td><code>/change_password/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Forgot Password</td>
+                    <td><code>/forgot_password/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Reset Password</td>
+                    <td><code>/reset_password/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Courses List</td>
+                    <td><code>/course_list/</code></td>
+                    <td><span class="badge bg-success">GET</span></td>
+                </tr>
+                <tr>
+                    <td>Create Course</td>
+                    <td><code>/create_course/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Edit Course</td>
+                    <td><code>/course_edit/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Delete Course</td>
+                    <td><code>/course_delete/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Create Lesson</td>
+                    <td><code>/create_lesson/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Edit Lesson</td>
+                    <td><code>/lesson_edit/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Delete Lesson</td>
+                    <td><code>/lesson_delete/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Enroll Student</td>
+                    <td><code>/Enroll_student/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>View Student</td>
+                    <td><code>/student_list/</code></td>
+                    <td><span class="badge bg-success">GET</span></td>
+                </tr>
+                <tr>
+                    <td>Update Student</td>
+                    <td><code>/update_student/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>Delete Student</td>
+                    <td><code>/delete_student/&lt;id&gt;/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+                <tr>
+                    <td>User Profile</td>
+                    <td><code>/user_profile/</code></td>
+                    <td><span class="badge bg-success">GET</span></td>
+                </tr>
+                <tr>
+                    <td>Update Profile</td>
+                    <td><code>/update_profile/</code></td>
+                    <td><span class="badge bg-primary">POST</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 ---
 
 ### 📧 Email Setup (SMTP for OTP)
