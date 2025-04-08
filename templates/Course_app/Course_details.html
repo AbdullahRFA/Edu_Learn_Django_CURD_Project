@@ -24,6 +24,7 @@
         <table class="table table-bordered table-hover text-center align-middle">
             <thead class="table-dark">
                 <tr>
+                    {% comment %} <th>ID</th> {% endcomment %}
                     <th>Lesson Title</th>
                     <th>Content</th>
                     <th>Actions</th>
@@ -32,6 +33,7 @@
             <tbody>
                 {% for lesson in lessons %}
                 <tr>
+                    {% comment %} <td class="fw-bold text-primary">{{ lesson.id }}</td> {% endcomment %}
                     <td class="fw-bold text-primary">{{ lesson.title }}</td>
                     <td class="text-start">
                         <div class="border rounded p-2 bg-light" style="white-space: pre-wrap;">
