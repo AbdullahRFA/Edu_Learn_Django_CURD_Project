@@ -57,6 +57,23 @@ def Course_Details(request, id):
 
     return render(request, "Course_app/Course_details.html", context)
 
+@login_required
+def complete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        # Optional: fallback by email
+        try:
+            student = Student.objects.get(email=request.user.email)
+        except Student.DoesNotExist:
+            return redirect('user_profile')  # Or show a message
+
+    student.completed_lesson.add(lesson)
+    return redirect('coursedetails', id=lesson.course.id)
+
+
 @login_required(login_url='login_user')
 def create_course(request):
     form = CourseForm()  # ✅ Initialize the form once

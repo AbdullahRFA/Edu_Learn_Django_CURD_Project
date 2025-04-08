@@ -65,12 +65,22 @@
                         <a href="{% url 'lesson_edit' lesson.id %}" class="btn btn-sm btn-outline-warning my-1">
                             <i class="fas fa-edit"></i> Edit
                         </a>
+
                         <form action="{% url 'lesson_delete' lesson.id %}" method="POST" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-danger btn-sm my-1">
                                 <i class="fas fa-trash-alt"></i> Delete
                             </button>
                         </form>
+
+                        {% if lesson not in student.completed_lesson.all %}
+                        <form action="{% url 'complete_lesson' lesson.id %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-success btn-sm my-1">
+                                <i class="fas fa-check-circle"></i> Complete
+                            </button>
+                        </form>
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}

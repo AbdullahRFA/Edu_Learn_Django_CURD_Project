@@ -51,4 +51,7 @@ urlpatterns = [
     
     
     
+    path('lesson/<int:lesson_id>/complete/', views.complete_lesson, name='complete_lesson'),
+    
+    
 ]

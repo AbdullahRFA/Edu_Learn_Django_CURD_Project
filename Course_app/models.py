@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Course(models.Model):
     title = models.CharField(max_length=25)
@@ -21,6 +23,7 @@ class Lesson(models.Model):
         return self.title
 
 class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=30)
     roll = models.IntegerField()
     email = models.EmailField(max_length=60,unique=True)
