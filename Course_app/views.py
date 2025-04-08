@@ -31,15 +31,31 @@ def course_list(request):
     return render(request,"Course_app/course_list.html",{"courses":courses})
 
 @login_required(login_url='login_user')
-def Course_Details(request,id):
+def Course_Details(request, id):
     course = get_object_or_404(Course, id=id)
     lessons = course.lessons.all()
-    context ={
-        'course':course,
-        'lessons':lessons
+
+    # 🔁 Replace this with your actual logic to get the logged-in student
+    student = Student.objects.first()  # Or use: request.user.student if connected to auth
+
+    total_lessons = lessons.count()
+
+    # Count how many lessons the student has completed for this course
+    completed_lessons = student.completed_lesson.filter(course=course).count() if student else 0
+
+    # Calculate progress percentage (avoid division by zero)
+    percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+
+    context = {
+        'course': course,
+        'lessons': lessons,
+        'student': student,
+        'total_lessons': total_lessons,
+        'completed_lessons': completed_lessons,
+        'percent_complete': percent_complete,
     }
-    
-    return render(request,"Course_app/Course_details.html",context)
+
+    return render(request, "Course_app/Course_details.html", context)
 
 @login_required(login_url='login_user')
 def create_course(request):
