@@ -2,9 +2,15 @@ from django.contrib import admin
 from django.urls import path
 from Course_app import views
 
+# For CBV
+from .views import CourseListView, CourseDetailView
+
 urlpatterns = [
-    path('',views.course_list,name='course_list'),
-    path('details/<int:id>/',views.Course_Details,name='coursedetails'),
+    # path('',views.course_list,name='course_list'),
+    path('', CourseListView.as_view(), name='course_list'),
+
+    # path('details/<int:id>/',views.Course_Details,name='coursedetails'),
+    path('details/<int:id>/', CourseDetailView.as_view(), name='coursedetails'),
     
     
     path('create_course/',views.create_course,name='create_course'),
@@ -52,6 +58,7 @@ urlpatterns = [
     
     
     path('lesson/<int:lesson_id>/complete/', views.complete_lesson, name='complete_lesson'),
+    # path('lesson/<int:lesson_id>/uncomplete/', views.uncomplete_lesson, name='uncomplete_lesson'),
     
     
 ]

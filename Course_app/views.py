@@ -6,6 +6,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm, UserUpdateForm, UserPasswordChangeForm
 from .models import Course, Lesson, Student
 
+# 🔄 CBV Version (Class-Based View)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from django.views import View
+
+
+
 # for sending mail to get otp
 import random
 from django.contrib.auth.models import User
@@ -24,38 +31,78 @@ html_path_for_student_list="Course_app/student_list.html"
 html_path_for_input_and_update="Course_app/input_and_update_form.html"
 
 # Create your views here.
-@login_required(login_url='login_user')
-def course_list(request):
-    courses = Course.objects.all()
+# @login_required(login_url='login_user')
+# def course_list(request):
+#     courses = Course.objects.all()
     
-    return render(request,"Course_app/course_list.html",{"courses":courses})
+#     return render(request,"Course_app/course_list.html",{"courses":courses})
 
-@login_required(login_url='login_user')
-def Course_Details(request, id):
-    course = get_object_or_404(Course, id=id)
-    lessons = course.lessons.all()
+# CBV for course_list
+class CourseListView(LoginRequiredMixin, ListView):
+    model = Course
+    template_name = "Course_app/course_list.html"
+    context_object_name = "courses"
+    login_url = 'login_user'
 
-    # 🔁 Replace this with your actual logic to get the logged-in student
-    student = Student.objects.first()  # Or use: request.user.student if connected to auth
+# @login_required(login_url='login_user')
+# def Course_Details(request, id):
+#     course = get_object_or_404(Course, id=id)
+#     lessons = course.lessons.all()
 
-    total_lessons = lessons.count()
+#     # 🔁 Replace this with your actual logic to get the logged-in student
+#     student = Student.objects.first()  # Or use: request.user.student if connected to auth
 
-    # Count how many lessons the student has completed for this course
-    completed_lessons = student.completed_lesson.filter(course=course).count() if student else 0
+#     total_lessons = lessons.count()
 
-    # Calculate progress percentage (avoid division by zero)
-    percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+#     # Count how many lessons the student has completed for this course
+#     completed_lessons = student.completed_lesson.filter(course=course).count() if student else 0
 
-    context = {
-        'course': course,
-        'lessons': lessons,
-        'student': student,
-        'total_lessons': total_lessons,
-        'completed_lessons': completed_lessons,
-        'percent_complete': percent_complete,
-    }
+#     # Calculate progress percentage (avoid division by zero)
+#     percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
 
-    return render(request, "Course_app/Course_details.html", context)
+#     context = {
+#         'course': course,
+#         'lessons': lessons,
+#         'student': student,
+#         'total_lessons': total_lessons,
+#         'completed_lessons': completed_lessons,
+#         'percent_complete': percent_complete,
+#     }
+
+#     return render(request, "Course_app/Course_details.html", context)
+
+# CBV for course_details
+
+class CourseDetailView(LoginRequiredMixin, View):
+    login_url = 'login_user'  # Redirect to login if not authenticated
+
+    def get(self, request, id):
+        course = get_object_or_404(Course, id=id)
+        lessons = course.lessons.all()
+
+        # Get the logged-in student (assuming one-to-one relation with user)
+        try:
+            student = request.user.student
+        except Student.DoesNotExist:
+            student = None
+
+        total_lessons = lessons.count()
+        completed_lessons = (
+            student.completed_lesson.filter(course=course).count() if student else 0
+        )
+        percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+
+        context = {
+            'course': course,
+            'lessons': lessons,
+            'student': student,
+            'total_lessons': total_lessons,
+            'completed_lessons': completed_lessons,
+            'percent_complete': percent_complete,
+        }
+
+        return render(request, "Course_app/Course_details.html", context)
+
 
 @login_required
 def complete_lesson(request, lesson_id):
@@ -72,6 +119,22 @@ def complete_lesson(request, lesson_id):
 
     student.completed_lesson.add(lesson)
     return redirect('coursedetails', id=lesson.course.id)
+
+
+
+# @login_required
+# def uncomplete_lesson(request, lesson_id):
+#     lesson = get_object_or_404(Lesson, id=lesson_id)
+
+#     try:
+#         student = Student.objects.get(user=request.user)
+#     except Student.DoesNotExist:
+#         # This means the logged-in user is not associated with a Student object
+#         # So, this redirect is triggered:
+#         return redirect('user_profile')  # You can modify this later
+
+#     student.completed_lesson.remove(lesson)
+#     return redirect('coursedetails', id=lesson.course.id)
 
 
 @login_required(login_url='login_user')
