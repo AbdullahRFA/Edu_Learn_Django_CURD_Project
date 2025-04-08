@@ -10,7 +10,8 @@ from .models import Course, Lesson, Student
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.views import View
-
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 
 # for sending mail to get otp
@@ -31,77 +32,77 @@ html_path_for_student_list="Course_app/student_list.html"
 html_path_for_input_and_update="Course_app/input_and_update_form.html"
 
 # Create your views here.
-# @login_required(login_url='login_user')
-# def course_list(request):
-#     courses = Course.objects.all()
+@login_required(login_url='login_user')
+def course_list(request):
+    courses = Course.objects.all()
     
-#     return render(request,"Course_app/course_list.html",{"courses":courses})
+    return render(request,"Course_app/course_list.html",{"courses":courses})
 
 # CBV for course_list
-class CourseListView(LoginRequiredMixin, ListView):
-    model = Course
-    template_name = "Course_app/course_list.html"
-    context_object_name = "courses"
-    login_url = 'login_user'
+# class CourseListView(LoginRequiredMixin, ListView):
+#     model = Course
+#     template_name = "Course_app/course_list.html"
+#     context_object_name = "courses"
+#     login_url = 'login_user'
 
-# @login_required(login_url='login_user')
-# def Course_Details(request, id):
-#     course = get_object_or_404(Course, id=id)
-#     lessons = course.lessons.all()
+@login_required(login_url='login_user')
+def Course_Details(request, id):
+    course = get_object_or_404(Course, id=id)
+    lessons = course.lessons.all()
 
-#     # 🔁 Replace this with your actual logic to get the logged-in student
-#     student = Student.objects.first()  # Or use: request.user.student if connected to auth
+    # 🔁 Replace this with your actual logic to get the logged-in student
+    student = Student.objects.first()  # Or use: request.user.student if connected to auth
 
-#     total_lessons = lessons.count()
+    total_lessons = lessons.count()
 
-#     # Count how many lessons the student has completed for this course
-#     completed_lessons = student.completed_lesson.filter(course=course).count() if student else 0
+    # Count how many lessons the student has completed for this course
+    completed_lessons = student.completed_lesson.filter(course=course).count() if student else 0
 
-#     # Calculate progress percentage (avoid division by zero)
-#     percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+    # Calculate progress percentage (avoid division by zero)
+    percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
 
-#     context = {
-#         'course': course,
-#         'lessons': lessons,
-#         'student': student,
-#         'total_lessons': total_lessons,
-#         'completed_lessons': completed_lessons,
-#         'percent_complete': percent_complete,
-#     }
+    context = {
+        'course': course,
+        'lessons': lessons,
+        'student': student,
+        'total_lessons': total_lessons,
+        'completed_lessons': completed_lessons,
+        'percent_complete': percent_complete,
+    }
 
-#     return render(request, "Course_app/Course_details.html", context)
+    return render(request, "Course_app/Course_details.html", context)
 
 # CBV for course_details
 
-class CourseDetailView(LoginRequiredMixin, View):
-    login_url = 'login_user'  # Redirect to login if not authenticated
+# class CourseDetailView(LoginRequiredMixin, View):
+#     login_url = 'login_user'  # Redirect to login if not authenticated
 
-    def get(self, request, id):
-        course = get_object_or_404(Course, id=id)
-        lessons = course.lessons.all()
+#     def get(self, request, id):
+#         course = get_object_or_404(Course, id=id)
+#         lessons = course.lessons.all()
 
-        # Get the logged-in student (assuming one-to-one relation with user)
-        try:
-            student = request.user.student
-        except Student.DoesNotExist:
-            student = None
+#         # Get the logged-in student (assuming one-to-one relation with user)
+#         try:
+#             student = request.user.student
+#         except Student.DoesNotExist:
+#             student = None
 
-        total_lessons = lessons.count()
-        completed_lessons = (
-            student.completed_lesson.filter(course=course).count() if student else 0
-        )
-        percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+#         total_lessons = lessons.count()
+#         completed_lessons = (
+#             student.completed_lesson.filter(course=course).count() if student else 0
+#         )
+#         percent_complete = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
 
-        context = {
-            'course': course,
-            'lessons': lessons,
-            'student': student,
-            'total_lessons': total_lessons,
-            'completed_lessons': completed_lessons,
-            'percent_complete': percent_complete,
-        }
+#         context = {
+#             'course': course,
+#             'lessons': lessons,
+#             'student': student,
+#             'total_lessons': total_lessons,
+#             'completed_lessons': completed_lessons,
+#             'percent_complete': percent_complete,
+#         }
 
-        return render(request, "Course_app/Course_details.html", context)
+#         return render(request, "Course_app/Course_details.html", context)
 
 
 @login_required
@@ -154,6 +155,27 @@ def create_course(request):
 
 
     return render(request, html_path_for_input_and_update, context)  # ✅ Pass the correct form
+
+# CBV for create_course
+
+# class CourseCreateView(LoginRequiredMixin, CreateView):
+#     model = Course
+#     form_class = CourseForm
+#     template_name = html_path_for_input_and_update 
+#     login_url = 'login_user'
+#     success_url = reverse_lazy('course_list')
+
+#     def form_valid(self, form):
+#         response = super().form_valid(form)
+#         messages.success(self.request, "Course added successfully!")
+#         return response
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['check'] = 2  # Passing 'check' like in your FBV
+#         return context
+
+
 
 
 @login_required(login_url='login_user')
