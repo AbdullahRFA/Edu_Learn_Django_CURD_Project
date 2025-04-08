@@ -59,7 +59,7 @@ urlpatterns = [
     
     
     path('lesson/<int:lesson_id>/complete/', views.complete_lesson, name='complete_lesson'),
-    # path('lesson/<int:lesson_id>/uncomplete/', views.uncomplete_lesson, name='uncomplete_lesson'),
+    path('lesson/<int:lesson_id>/uncomplete/', views.uncomplete_lesson, name='uncomplete_lesson'),
     
     
 ]

@@ -122,20 +122,27 @@ def complete_lesson(request, lesson_id):
     return redirect('coursedetails', id=lesson.course.id)
 
 
+#TODO has to be worked
+@login_required
+def uncomplete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
 
-# @login_required
-# def uncomplete_lesson(request, lesson_id):
-#     lesson = get_object_or_404(Lesson, id=lesson_id)
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        messages.error(request, "Student profile not found.")
+        return redirect('user_profile')
 
-#     try:
-#         student = Student.objects.get(user=request.user)
-#     except Student.DoesNotExist:
-#         # This means the logged-in user is not associated with a Student object
-#         # So, this redirect is triggered:
-#         return redirect('user_profile')  # You can modify this later
-
-#     student.completed_lesson.remove(lesson)
-#     return redirect('coursedetails', id=lesson.course.id)
+    if lesson in student.completed_lesson.all():
+        student.completed_lesson.remove(lesson)
+        messages.success(request, f"Marked '{lesson.title}' as incomplete.")
+        
+    print("User:", request.user)
+    print("Is Authenticated:", request.user.is_authenticated)
+    print("Student Exists:", Student.objects.filter(user=request.user).exists())
+    print("Lesson ID:", lesson_id)
+    
+    return redirect('coursedetails', id=lesson.course.id)
 
 
 @login_required(login_url='login_user')

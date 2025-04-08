@@ -9,7 +9,7 @@ import random
 
 @receiver(post_save, sender=User)
 def create_student(sender, instance, created, **kwargs):
-    if created:
+    if created and not hasattr(instance, 'student'):
         Student.objects.create(
             user=instance,
             name=instance.username,

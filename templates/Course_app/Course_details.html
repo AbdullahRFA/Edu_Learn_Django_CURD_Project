@@ -81,14 +81,14 @@
                                     <i class="fas fa-check-circle"></i> Complete
                                 </button>
                             </form>
-                        {% comment %} {% else %}
+                        {% else %}
                             <!-- Show Incomplete Button -->
                             <form action="{% url 'uncomplete_lesson' lesson.id %}" method="POST" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-outline-secondary btn-sm my-1">
                                     <i class="fas fa-times-circle"></i> Incomplete
                                 </button>
-                            </form> {% endcomment %}
+                            </form>
                         {% endif %}
                     </td>
                 </tr>
