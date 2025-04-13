@@ -22,7 +22,12 @@ from django.conf import settings
 from .forms import PasswordResetRequestForm
 from django.contrib.auth.hashers import make_password
 
-
+# for DRF APi
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import CourseSerializer
+from .models import Student, Course
 
 
 
@@ -523,11 +528,6 @@ def password_change_complete(request):
     return render(request, 'Course_app/password_change_complete.html')
 
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Course
-from .serializers import CourseSerializer
 
 class CourseListAPI(APIView):
     def get(self, request):
@@ -547,10 +547,6 @@ class CourseDetailAPI(APIView):
     
     
     
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Student, Course
 
 class EnrollStudentAPI(APIView):
     def post(self, request):
