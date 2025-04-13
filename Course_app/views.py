@@ -1,35 +1,39 @@
+# for sending mail to get otp
+import random
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import get_object_or_404, redirect, render
-from .forms import CourseForm, LessonForm, StudentForm, UserRegistrationForm, UserUpdateForm, UserPasswordChangeForm
-from .models import Course, Lesson, Student
+from django.contrib.auth.hashers import make_password
 
 # 🔄 CBV Version (Class-Based View)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-from django.views import View
-from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
-
-
-# for sending mail to get otp
-import random
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.conf import settings
-from .forms import PasswordResetRequestForm
-from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView
+from rest_framework import status
+from rest_framework.response import Response
 
 # for DRF APi
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+
+from .forms import (
+    CourseForm,
+    LessonForm,
+    PasswordResetRequestForm,
+    StudentForm,
+    UserPasswordChangeForm,
+    UserRegistrationForm,
+    UserUpdateForm,
+)
+from .models import Course, Lesson, Student
 from .serializers import CourseSerializer
-from .models import Student, Course
-
-
 
 # html_path_variabl
 html_path_delete_confirmation_form = "Course_app/delete_confirmation_form.html"
@@ -529,6 +533,8 @@ def password_change_complete(request):
 
 
 
+
+# DRF API implement
 class CourseListAPI(APIView):
     def get(self, request):
         courses = Course.objects.all()

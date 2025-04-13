@@ -1,0 +1,1 @@
+web: gunicorn Edu_Learn_Django_CURD_Project.wsgi

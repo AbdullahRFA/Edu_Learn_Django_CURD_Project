@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+# for deploying project
+from environ import Env
+env = Env()
+Env.read_env()
+ENVIRONMENT = env('ENVIRONMENT',default='production')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5ti_kws7fja&zhc1-$v#hg1uodl-0mtjtmw#gb@z1x_$6h7$6h'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == "development":
+    DEBUG = True
+else:
+    DEBUG = False
+    
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -138,3 +148,18 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shakibrybmn@gmail.com'  # Replace with your Gmail
 EMAIL_HOST_PASSWORD = 'egpi ilyt huuw lcux'  # Generate an App Password from Google
+
+ACCOUNT_USERNAME_BLACKLIST = ['edu_learn']
+
+
+import dj_database_url
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+# Database config for Railway
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
