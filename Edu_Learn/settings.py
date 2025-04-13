@@ -102,8 +102,15 @@ if ENVIRONMENT == 'development':
         }
     }
 else:
-    DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+   DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': 'switchyard.proxy.rlwy.net',
+            'PORT': '36759',
+        }
     }
 
 
@@ -175,16 +182,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Only override if DATABASE_URL is set (e.g., in Railway)
-try:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-except:
-    print("⚠️ DATABASE_URL is not set. Using default sqlite3.")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# try:
+#     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# except:
+#     print("⚠️ DATABASE_URL is not set. Using default sqlite3.")
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
     
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
