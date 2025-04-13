@@ -17,7 +17,7 @@ import os
 import dj_database_url
 from environ import Env
 env = Env()
-Env.read_env()
+env.read_env()
 ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 
@@ -92,11 +92,7 @@ WSGI_APPLICATION = 'Edu_Learn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
 import dj_database_url
-from django.core.exceptions import ImproperlyConfigured
-
-DATABASE_URL = env('DATABASE_URL', default=None)
 
 if ENVIRONMENT == 'development':
     DATABASES = {
@@ -105,12 +101,11 @@ if ENVIRONMENT == 'development':
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-elif DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
-    }
 else:
-    raise ImproperlyConfigured("DATABASE_URL not found and not in development mode.")
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -172,7 +167,7 @@ ACCOUNT_USERNAME_BLACKLIST = ['edu_learn']
 
 import dj_database_url
 
-STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -193,4 +188,4 @@ except:
     
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
