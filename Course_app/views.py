@@ -544,3 +544,30 @@ class CourseDetailAPI(APIView):
         
         serializer = CourseSerializer(course)
         return Response(serializer.data)
+    
+    
+    
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Student, Course
+
+class EnrollStudentAPI(APIView):
+    def post(self, request):
+        student_email = request.data.get('email')
+        student_name = request.data.get('name')
+        roll = request.data.get('roll')
+        course_id = request.data.get('course_id')
+
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return Response({'error': 'Course not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        student, created = Student.objects.get_or_create(
+            email=student_email,
+            defaults={'name': student_name, 'roll': roll}
+        )
+
+        student.enrolled_courses.add(course)
+        return Response({'message': f'{student.email} has been enrolled in {course.title}'})

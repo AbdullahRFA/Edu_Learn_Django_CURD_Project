@@ -4,6 +4,7 @@ from Course_app import views
 
 from django.urls import path
 from .views import CourseListAPI, CourseDetailAPI
+from .views import EnrollStudentAPI
 
 # For CBV
 # from .views import CourseListView, CourseDetailView, CourseCreateView
@@ -67,6 +68,9 @@ urlpatterns = [
     
     path('api/courses/', CourseListAPI.as_view(), name='api_course_list'),
     path('api/courses/<int:pk>/', CourseDetailAPI.as_view(), name='api_course_detail'),
+    
+    
+    path('api/enroll-student/', EnrollStudentAPI.as_view(), name='enroll_student_api'),
     
     
 ]
