@@ -16,7 +16,7 @@ import os
 from environ import Env
 env = Env()
 Env.read_env()
-ENVIRONMENT = env('ENVIRONMENT',default='production')
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -147,8 +147,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'shakibrybmn@gmail.com'  # Replace with your Gmail
-EMAIL_HOST_PASSWORD = 'egpi ilyt huuw lcux'  # Generate an App Password from Google
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')  # Replace with your Gmail
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # Generate an App Password from Google
 
 ACCOUNT_USERNAME_BLACKLIST = ['edu_learn']
 
