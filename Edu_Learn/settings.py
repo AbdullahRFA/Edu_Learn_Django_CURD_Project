@@ -37,9 +37,9 @@ else:
     DEBUG = False
 
 
-ALLOWED_HOSTS = ['https://edu-learn-abdullahrfa-383-ju-cse.up.railway.app/']
+ALLOWED_HOSTS = ['edu-learn.up.railway.app']
 
-CSRF_TRUSTED_ORIGINS = ['https://https://edu-learn-abdullahrfa-383-ju-cse.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
 
 
 
