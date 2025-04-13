@@ -36,7 +36,11 @@ if ENVIRONMENT == "development":
     DEBUG = True
 else:
     DEBUG = False
-    
+
+
+ALLOWED_HOSTS = ['edu-learn.up.railway.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
 
 ALLOWED_HOSTS = ['*']
 
@@ -175,3 +179,8 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+    
+    
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
