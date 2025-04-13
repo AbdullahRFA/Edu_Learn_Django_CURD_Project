@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('edu_learn/', admin.site.urls),
     path('',include("Course_app.urls")),
 ]

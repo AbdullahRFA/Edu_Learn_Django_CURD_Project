@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Course_app',
+    'admin_honeypot',
     'rest_framework',
 ]
 
@@ -161,5 +162,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-# Database config for Railway
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# Only override if DATABASE_URL is set (e.g., in Railway)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
