@@ -13,8 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
-# for deploying project
-import dj_database_url
+# for deploying proje
 from environ import Env
 env = Env()
 env.read_env()
@@ -38,9 +37,9 @@ else:
     DEBUG = False
 
 
-ALLOWED_HOSTS = ['edu-learn.up.railway.app']
+ALLOWED_HOSTS = ['https://edu-learn-abdullahrfa-383-ju-cse.up.railway.app/']
 
-CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://https://edu-learn-abdullahrfa-383-ju-cse.up.railway.app/']
 
 
 
@@ -171,28 +170,12 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # Generate an App Password fro
 
 ACCOUNT_USERNAME_BLACKLIST = ['edu_learn']
 
-
-import dj_database_url
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-# Only override if DATABASE_URL is set (e.g., in Railway)
-# try:
-#     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-# except:
-#     print("⚠️ DATABASE_URL is not set. Using default sqlite3.")
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
-    
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 # SECURE_SSL_REDIRECT = True
