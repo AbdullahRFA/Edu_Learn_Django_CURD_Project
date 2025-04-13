@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from Course_app import views
 
+from django.urls import path
+from .views import CourseListAPI, CourseDetailAPI
+
 # For CBV
 # from .views import CourseListView, CourseDetailView, CourseCreateView
 
@@ -60,6 +63,10 @@ urlpatterns = [
     
     path('lesson/<int:lesson_id>/complete/', views.complete_lesson, name='complete_lesson'),
     path('lesson/<int:lesson_id>/uncomplete/', views.uncomplete_lesson, name='uncomplete_lesson'),
+    
+    
+    path('api/courses/', CourseListAPI.as_view(), name='api_course_list'),
+    path('api/courses/<int:pk>/', CourseDetailAPI.as_view(), name='api_course_detail'),
     
     
 ]
