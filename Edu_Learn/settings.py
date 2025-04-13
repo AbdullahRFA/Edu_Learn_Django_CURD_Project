@@ -42,7 +42,6 @@ ALLOWED_HOSTS = ['edu-learn.up.railway.app']
 
 CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
 
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -176,10 +175,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Only override if DATABASE_URL is set (e.g., in Railway)
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
-    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
-    
+try:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+except:
+    print("⚠️ DATABASE_URL is not set. Using default sqlite3.")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
     
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
