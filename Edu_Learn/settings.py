@@ -12,11 +12,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ  # this is correct, not "from environ import Env"
 
-# for deploying proje
-from environ import Env
-env = Env()
-env.read_env()
+# Define BASE_DIR first
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialize environ
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # ✅ Load .env using full path
 ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 
