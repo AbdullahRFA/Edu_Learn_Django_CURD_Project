@@ -33,13 +33,11 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 if ENVIRONMENT == "development":
     DEBUG = True
+    ALLOWED_HOSTS = []
 else:
     DEBUG = False
-
-
-ALLOWED_HOSTS = ['edu-learn.up.railway.app']
-
-CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
+    ALLOWED_HOSTS = ['edu-learn.up.railway.app']
+    CSRF_TRUSTED_ORIGINS = ['https://edu-learn.up.railway.app']
 
 
 
@@ -107,8 +105,8 @@ else:
             'NAME': env('DB_NAME'),
             'USER': env('DB_USER'),
             'PASSWORD': env('DB_PASSWORD'),
-            'HOST': 'switchyard.proxy.rlwy.net',
-            'PORT': '36759',
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT'),
         }
     }
 
@@ -168,12 +166,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')  # Replace with your Gmail
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # Generate an App Password from Google
 
+
+
 ACCOUNT_USERNAME_BLACKLIST = ['edu_learn']
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 CSRF_COOKIE_SECURE = True
